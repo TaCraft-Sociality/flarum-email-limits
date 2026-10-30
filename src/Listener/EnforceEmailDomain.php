@@ -17,8 +17,20 @@ class EnforceEmailDomain
 
     public function handle(Saving $event): void
     {
-        if ($event->user->exists) {
-            return;
+        $user = $event->user;
+
+        $email = $event->data['attributes']['email'] ?? null;
+
+        if ($user->exists) {
+            if ($email === null) {
+                return;
+            }
+
+            if (strcasecmp(trim((string) $email), trim((string) $user->getOriginal('email'))) === 0) {
+                return;
+            }
+        } else {
+            $email = $email ?? $user->email;
         }
 
         $suffixes = $this->allowedSuffixes();
@@ -27,7 +39,7 @@ class EnforceEmailDomain
             return;
         }
 
-        $domain = $this->domainOf((string) $event->user->email);
+        $domain = $this->domainOf((string) $email);
 
         foreach ($suffixes as $suffix) {
             if ($domain === $suffix || str_ends_with($domain, '.'.$suffix)) {

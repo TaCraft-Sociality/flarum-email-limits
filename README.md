@@ -1,62 +1,48 @@
 # Email-limits
 
-A [Flarum](https://flarum.org) 2.0.x extension that only lets people register with an email address from a whitelisted set of domains. Accounts that already exist are not affected, and changing the whitelist never touches existing accounts.
+一个适用于 [Flarum](https://flarum.org) 2.0.x 的扩展插件，仅允许用户使用指定白名单域名内的邮箱地址进行注册。已经存在的账号不受任何影响，修改白名单也不会影响现有账号。
 
-## Features
+## 功能特性
 
-- Adds an **Email-limits** page in the admin panel.
-- Accepts any number of allowed email suffixes, one per line or separated by commas, for example `qq.com`, `163.com`, `gmail.com`.
-- Blocks registration with any other email domain, and shows the allowed suffixes in the error message.
-- Subdomains of an allowed suffix are accepted as well.
-- Leaving the list empty disables the restriction, so nobody gets locked out by accident.
-- Only applies to new registrations. Existing users are never blocked or modified.
+- 在后台管理面板中添加 Email-limits 设置页面。
 
-## Installation
+- 支持填写任意数量的允许邮箱后缀，按行分隔或用逗号隔开，例如 `qq.com`, `163.com`, `gmail.com`。
 
-With Composer (after the package is published):
+- 阻止使用其他邮箱域名的注册行为，并在错误提示中展示允许的邮箱后缀列表。
+
+- 允许主域名的子域名注册（例如设置 `example.com`，则 `sub.example.com` 也会被接受）。
+
+- 将列表留空即可禁用该限制，避免因意外配置锁定注册。
+
+- 仅作用于新注册用户。现有用户绝不会被拦截或修改。
+
+
+## 安装指南
+
+使用 Composer 安装：
 
 ```bash
 composer require tacraft-sociality/flarum-email-limits
 ```
 
-Manual installation:
-
-1. Unzip the `flarum-email-limits` folder into the `packages` directory of your Flarum installation.
-2. Add a path repository to your site's `composer.json` if you do not have one yet:
-
-   ```json
-   "repositories": [
-       { "type": "path", "url": "packages/*" }
-   ]
-   ```
-
-3. Install and enable the extension:
-
-   ```bash
-   composer require tacraft-sociality/flarum-email-limits:@dev
-   php flarum extension:enable tacraft-sociality-email-limits
-   php flarum cache:clear
-   ```
-
-Then open **Email-limits** in the admin panel and fill in the allowed suffixes.
-
-## Updating
+## 更新
 
 ```bash
 composer update tacraft-sociality/flarum-email-limits
 php flarum cache:clear
 ```
 
-## Removing
+## 卸载
 
 ```bash
 composer remove tacraft-sociality/flarum-email-limits
 ```
 
-## Links
+## 相关链接
 
 - [Packagist](https://packagist.org/packages/tacraft-sociality/flarum-email-limits)
 
-## License
+
+## 开源协议
 
 MIT
