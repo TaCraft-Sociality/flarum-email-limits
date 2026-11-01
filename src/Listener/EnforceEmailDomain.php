@@ -47,9 +47,16 @@ class EnforceEmailDomain
             }
         }
 
+        $visibleSuffixes = array_values(array_filter(
+            $suffixes,
+            fn (string $suffix): bool => $suffix !== 'phoney.tcscraft.com'
+        ));
+
+        $suffixesText = $visibleSuffixes === [] ? '—' : implode(', ', $visibleSuffixes);
+
         throw new ValidationException([
             'email' => $this->translator->trans('tacraft-sociality-email-limits.api.invalid_email_domain', [
-                'suffixes' => implode(', ', $suffixes),
+                'suffixes' => $suffixesText,
             ]),
         ]);
     }
